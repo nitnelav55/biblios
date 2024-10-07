@@ -6,8 +6,11 @@ use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
+#[UniqueEntity(['name'])]
 class Author
 {
     #[ORM\Id]
@@ -15,21 +18,22 @@ class Author
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Length(min: 5)]
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column]
-    private ?\DateTimeImmutable $DateOfBirth = null;
+    private ?\DateTimeImmutable $dateOfBirth = null;
 
+    #[Assert\GreaterThan(propertyPath: 'dateOfBirth')]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dateOfDeath = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nationality = null;
 
-    /**
-     * @var Collection<int, Book>
-     */
     #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'authors')]
     private Collection $books;
 
@@ -57,12 +61,12 @@ class Author
 
     public function getDateOfBirth(): ?\DateTimeImmutable
     {
-        return $this->DateOfBirth;
+        return $this->dateOfBirth;
     }
 
-    public function setDateOfBirth(\DateTimeImmutable $DateOfBirth): static
+    public function setDateOfBirth(\DateTimeImmutable $dateOfBirth): static
     {
-        $this->DateOfBirth = $DateOfBirth;
+        $this->dateOfBirth = $dateOfBirth;
 
         return $this;
     }
