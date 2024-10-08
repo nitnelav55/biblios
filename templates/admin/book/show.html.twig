@@ -37,7 +37,11 @@
                         <li class="list-group-item"><h5>Synopsis : </h5>{{ book.plot }}</li>
                     </ul>
                     <div>
-                        <img src="{{ book.cover }}" alt="Couverture de {{ book.title }}">
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="{{ book.cover }}" alt="Couverture de {{ book.title }}">
+                        </div>
+                    </div>        
                     </div>
                 </div>
             </div>

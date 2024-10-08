@@ -45,6 +45,7 @@ class AuthorController extends AbstractController
             $manager->persist($author);
             $manager->flush();
 
+
             return $this->redirectToRoute('app_admin_author_index');
         }
 

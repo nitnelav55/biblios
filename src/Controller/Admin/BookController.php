@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Book;
+use App\Entity\AuthorBook;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,11 +32,26 @@ class BookController extends AbstractController
     {
         $book ??= new Book();
         $form = $this->createForm(BookType::class, $book);
+        //$authorBook = new AuthorBook();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($book);
             $manager->flush();
+            /*foreach ($book->getAuthors() as $author) {
+                $authorBook = new AuthorBook();
+                $authorBook->setBookId($book->getId());
+                $authorBook->setAuthorId($author->getId());
+                $manager->persist($authorBook);
+                //$manager->flush();
+
+            }*/
+            //$manager->flush();
+            //$authorBook->setBookId($book->getId());
+            //$authorBook->setAuthorId(1);
+            //$authorBook->setAuthorId($book->getAuthors[0]);
+            // $manager->persist($authorBook);
+            // $manager->flush();
 
             return $this->redirectToRoute('app_admin_book_index');
         }
